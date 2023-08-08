@@ -11,7 +11,11 @@ export {
 } from "./nostr/nostrRelay2ClientMessage";
 
 export { Nip46SocketEvent } from "./nostr/nip46/nip46Socket";
-export { Nip46Message } from "./nostr/nip46/typeDefs";
+export {
+  Nip46Message,
+  Nip46DelegateRequestParams,
+  Nip46DelegateResponseResult,
+} from "./nostr/nip46/typeDefs";
 
 export {
   Event,
