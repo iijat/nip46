@@ -1,30 +1,20 @@
 import { NostrRelay2ClientMessage_EVENT } from "../nostrRelay2ClientMessage";
 
-// export enum Nip46RequestMethod {
-//   connect = "connect",
-//   get_public_key = "get_public_key",
-//   sign_event = "sign_event",
-//   describe = "describe",
-// }
-
-// export interface Nip46Request {
-//   id: string;
-//   method: Nip46RequestMethod;
-//   params: any[];
-// }
-
 export enum Nip46RequestMethod {
-  /**APP to SIGNER */
+  /** APP to SIGNER */
   get_public_key = "get_public_key",
 
-  /**APP to SIGNER */
+  /** APP to SIGNER */
   sign_event = "sign_event",
 
-  /**APP to SIGNER */
+  /** APP to SIGNER */
   describe = "describe",
 
-  /**SIGNER to APP */
-  connect = "connect", // from signer to app
+  /** APP to SIGNER */
+  delegate = "delegate",
+
+  /** SIGNER to APP */
+  connect = "connect",
 }
 
 export type Nip46Request = {
@@ -89,3 +79,19 @@ export class Nip46Message {
     this.event = event;
   }
 }
+
+export type Nip46DelegateRequestParams = [
+  string,
+  {
+    kind: number;
+    since: number;
+    until: number;
+  }
+];
+
+export type Nip46DelegateResponseResult = {
+  from: string;
+  to: string;
+  cond: string;
+  sig: string;
+};

@@ -1,6 +1,11 @@
 import { EventEmitter } from "events";
 import { Nip46Uri } from "./nip46Uri";
-import { Nip46Request, Nip46RequestMethod } from "./typeDefs";
+import {
+  Nip46DelegateRequestParams,
+  Nip46DelegateResponseResult,
+  Nip46Request,
+  Nip46RequestMethod,
+} from "./typeDefs";
 import { v4 } from "uuid";
 import {
   UnsignedEvent,
@@ -9,6 +14,7 @@ import {
   getEventHash,
   getSignature,
   Event,
+  EventTemplate,
 } from "nostr-tools";
 import { Nip46RequestExt, Nip46Response } from "./typeDefs";
 import { Nip46Socket, Nip46SocketEvent } from "./nip46Socket";
@@ -18,6 +24,7 @@ export enum Nip46SignerEvent {
   IncomingRequest_get_public_key = "get_public_key",
   IncomingRequest_describe = "describe",
   IncomingRequest_sign_event = "sign_event",
+  IncomingRequest_delegate = "delegate",
 }
 
 export class Nip46Signer {
@@ -89,7 +96,7 @@ export class Nip46Signer {
     await this._response(
       app,
       requestId,
-      ["describe", "connect", "get_public_key", "sign_event"],
+      ["describe", "connect", "get_public_key", "sign_event", "delegate"],
       null
     );
   }
@@ -102,6 +109,19 @@ export class Nip46Signer {
   ) {
     if (signedEvent) {
       await this._response(app, requestId, signedEvent, null);
+    } else {
+      await this._response(app, requestId, null, errorMessage);
+    }
+  }
+
+  async sendDelegateResponse(
+    app: Nip46Uri,
+    requestId: string,
+    result: Nip46DelegateResponseResult | null,
+    errorMessage: string | undefined
+  ) {
+    if (result) {
+      await this._response(app, requestId, result, null);
     } else {
       await this._response(app, requestId, null, errorMessage);
     }
@@ -176,7 +196,16 @@ export class Nip46Signer {
           Nip46SignerEvent.IncomingRequest_sign_event,
           app,
           nip46RequestExt.id,
-          nip46RequestExt.params[0] as UnsignedEvent
+          nip46RequestExt.params[0] as EventTemplate
+        );
+        break;
+
+      case Nip46RequestMethod.delegate:
+        this.events.emit(
+          Nip46SignerEvent.IncomingRequest_delegate,
+          app,
+          nip46RequestExt.id,
+          nip46RequestExt.params as Nip46DelegateRequestParams
         );
         break;
 

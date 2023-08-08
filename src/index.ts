@@ -1,3 +1,5 @@
+import { nip26 } from "nostr-tools";
+
 export { Nip46Signer, Nip46SignerEvent } from "./nostr/nip46/nip46Signer";
 export { Nip46App, Nip46AppEvent } from "./nostr/nip46/nip46App";
 export { Nip46Uri, Nip46UriMetadata } from "./nostr/nip46/nip46Uri";
@@ -13,10 +15,12 @@ export { Nip46Message } from "./nostr/nip46/typeDefs";
 
 export {
   Event,
+  EventTemplate,
   UnsignedEvent,
   getEventHash,
   getSignature,
   getPublicKey,
   generatePrivateKey,
   Kind,
+  verifySignature,
 } from "nostr-tools";

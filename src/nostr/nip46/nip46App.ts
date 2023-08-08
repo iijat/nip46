@@ -2,6 +2,7 @@ import { EventEmitter } from "events";
 import { Nip46Socket, Nip46SocketEvent } from "./nip46Socket";
 import {
   Event,
+  EventTemplate,
   UnsignedEvent,
   getEventHash,
   getPublicKey,
@@ -9,7 +10,12 @@ import {
   nip04,
 } from "nostr-tools";
 import { Nip46Uri } from "./nip46Uri";
-import { Nip46Request, Nip46RequestExt, Nip46RequestMethod } from "./typeDefs";
+import {
+  Nip46DelegateRequestParams,
+  Nip46Request,
+  Nip46RequestExt,
+  Nip46RequestMethod,
+} from "./typeDefs";
 import { v4 } from "uuid";
 
 export enum Nip46AppEvent {
@@ -54,16 +60,24 @@ export class Nip46App {
     this._nip46Socket.goOffline();
   }
 
+  async sendDescribe(): Promise<string[]> {
+    return await this._request(Nip46RequestMethod.describe, [], true);
+  }
+
   async sendGetPublicKey(): Promise<string> {
     return await this._request(Nip46RequestMethod.get_public_key, [], true);
   }
 
-  async sendSignEvent(unsignedEvent: UnsignedEvent): Promise<Event> {
+  async sendSignEvent(eventTemplate: EventTemplate): Promise<Event> {
     return await this._request(
       Nip46RequestMethod.sign_event,
-      [unsignedEvent],
+      [eventTemplate],
       true
     );
+  }
+
+  async sendDelegate(params: Nip46DelegateRequestParams) {
+    return await this._request(Nip46RequestMethod.delegate, params, true);
   }
 
   // #endregion Public Methods

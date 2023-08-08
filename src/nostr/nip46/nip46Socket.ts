@@ -111,23 +111,5 @@ export class Nip46Socket extends NostrSocket {
         );
       }
     }
-
-    // if (typeof (nip46Message as Nip46Request).method !== "undefined") {
-    //   // Message is Request
-    //   const nip46Request = nip46Message as Nip46Request;
-    //   // Could be a 'connect'
-    //   if (nip46Request.method === "connect") {
-    //     // Store the pubkey of the signer
-    //     this._signerPubkey = nip46Request.params[0];
-    //     this.events.emit(
-    //       NostrConnectAppEvent.IncomingConnectRequest,
-    //       this._signerPubkey
-    //     );
-    //   }
-    // } else {
-    //   // Message is Response
-    //   const nip46Response = nip46Message as Nip46Response;
-    //   this._responseEvents.emit("response", nip46Response);
-    // }
   }
 }
