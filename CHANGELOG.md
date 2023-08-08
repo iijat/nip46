@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.3
+
+_Released 08/08/2023_
+
+#### Fixes
+
+- Add missing types and exports.
+
 ## 0.0.2
 
 _Released 08/08/2023_
