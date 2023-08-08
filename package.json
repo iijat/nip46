@@ -5,7 +5,7 @@
     "email": "chris@iijat.com",
     "url": "https://iijat.com"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "description": "A Nostr NIP-46 implementation for the browser.",
   "main": "dist/index.js",
