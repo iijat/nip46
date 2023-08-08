@@ -12,6 +12,7 @@ import {
 import { Nip46Uri } from "./nip46Uri";
 import {
   Nip46DelegateRequestParams,
+  Nip46DelegateResponseResult,
   Nip46Request,
   Nip46RequestExt,
   Nip46RequestMethod,
@@ -76,7 +77,9 @@ export class Nip46App {
     );
   }
 
-  async sendDelegate(params: Nip46DelegateRequestParams) {
+  async sendDelegate(
+    params: Nip46DelegateRequestParams
+  ): Promise<Nip46DelegateResponseResult> {
     return await this._request(Nip46RequestMethod.delegate, params, true);
   }
 
