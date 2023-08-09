@@ -92,13 +92,17 @@ export class Nip46Signer {
     }
   }
 
-  async sendDescribeResponse(app: Nip46Uri, requestId: string) {
-    await this._response(
-      app,
-      requestId,
-      ["describe", "connect", "get_public_key", "sign_event", "delegate"],
-      null
-    );
+  async sendDescribeResponse(
+    app: Nip46Uri,
+    requestId: string,
+    result: string[] | null,
+    errorMessage: string | undefined
+  ) {
+    if (result == null) {
+      await this._response(app, requestId, null, errorMessage);
+    } else {
+      await this._response(app, requestId, result, undefined);
+    }
   }
 
   async sendSignEventResponse(
@@ -187,8 +191,11 @@ export class Nip46Signer {
         break;
 
       case Nip46RequestMethod.describe:
-        // Special request that the library answers itself.
-        this.sendDescribeResponse(app, nip46RequestExt.id);
+        this.events.emit(
+          Nip46SignerEvent.IncomingRequest_describe,
+          app,
+          nip46RequestExt.id
+        );
         break;
 
       case Nip46RequestMethod.sign_event:
