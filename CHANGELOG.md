@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.4
+
+_Released 08/09/2023_
+
+#### Changes
+
+- Remove automatic response for describe.
+
 ## 0.0.3
 
 _Released 08/08/2023_
